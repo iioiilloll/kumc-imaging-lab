@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고려대학교 의과대학 융합의학교실 | Medical Imaging & Convergence Medicine Lab</title>
+    <meta name="description" content="고려대학교 의과대학 융합의학교실 - 비침습 생체영상, 분자영상, AI 진단, 3D 정량계측 연구실">
+    <style>
+        :root {
+            --primary: #1a3a5c;
+            --primary-light: #2c5f8a;
+            --accent: #c4923a;
+            --bg: #f8f9fa;
+            --white: #ffffff;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --border: #dfe6e9;
+            --shadow: 0 2px 16px rgba(0,0,0,0.08);
+            --radius: 12px;
+            --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; font-size:16px; }
+        body {
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: var(--primary-light); text-decoration:none; transition: var(--transition); }
+        a:hover { color: var(--accent); }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index:1000;
+            background: rgba(26,58,92,0.97);
+            backdrop-filter: blur(12px);
+            padding: 0 2rem;
+            height: 64px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 2px solid rgba(196,146,58,0.3);
+        }
+        nav .logo {
+            color: var(--white); font-size: 1.05rem; font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        nav .logo span { color: var(--accent); }
+        nav .links { display: flex; gap: 1.8rem; list-style: none; }
+        nav .links a {
+            color: rgba(255,255,255,0.85); font-size: 0.9rem; font-weight: 500;
+            padding: 6px 0; border-bottom: 2px solid transparent; transition: var(--transition);
+        }
+        nav .links a:hover { color: var(--accent); border-color: var(--accent); }
+        .menu-toggle { display:none; background:none; border:none; color:white; font-size:1.6rem; cursor:pointer; }
+
+        /* ── HERO ── */
+        .hero {
+            margin-top: 64px;
+            position: relative;
+            height: 520px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #0d2137 0%, #1a3a5c 40%, #2c5f8a 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; inset:0;
+            background: url('mainImage.jpg') center/cover no-repeat;
+            opacity: 0.15;
+        }
+        .hero-content {
+            position: relative; z-index:1; text-align:center; padding:2rem;
+            max-width: 900px;
+        }
+        .hero-content h1 {
+            color: white; font-size: 2.6rem; font-weight: 800;
+            letter-spacing: -1px; margin-bottom: 1rem;
+            text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .hero-content h1 .eng {
+            display: block; font-size: 1.2rem; font-weight: 400;
+            color: rgba(255,255,255,0.8); letter-spacing: 0.5px; margin-top: 4px;
+        }
+        .hero-content p {
+            color: rgba(255,255,255,0.85); font-size: 1.15rem; margin-bottom: 2rem;
+        }
+        .hero-content .highlight {
+            color: var(--accent); font-weight: 600;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(196,146,58,0.15); border: 1px solid rgba(196,146,58,0.4);
+            color: var(--accent); padding: 0.5rem 1.5rem; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 500;
+        }
+
+        /* ── SECTIONS ── */
+        section { padding: 5rem 2rem; }
+        .container { max-width: 1100px; margin:0 auto; }
+        .section-title {
+            text-align: center; margin-bottom: 3rem;
+        }
+        .section-title h2 {
+            font-size: 2rem; color: var(--primary); font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .section-title .sub {
+            display: block; color: var(--text-light); font-size: 1rem;
+            font-weight: 400; margin-top: 0.3rem;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 3px;
+            background: var(--accent); margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* ── CARDS ── */
+        .card {
+            background: var(--white); border-radius: var(--radius);
+            padding: 2rem; box-shadow: var(--shadow);
+            border: 1px solid var(--border); transition: var(--transition);
+        }
+        .card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.12); transform: translateY(-2px); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+
+        /* ── DIRECTOR ── */
+        .director-section { background: var(--white); }
+        .director-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .director-card {
+            background: var(--bg); border-radius: var(--radius); padding: 2.5rem;
+            border: 1px solid var(--border); text-align: center;
+        }
+        .director-card.current { border: 2px solid var(--accent); background: linear-gradient(135deg, #fef9f0, #fffdf7); }
+        .director-card img {
+            width: 160px; height: 160px; object-fit: cover; border-radius: 50%;
+            border: 4px solid var(--border); margin-bottom: 1.2rem;
+        }
+        .director-card.current img { border-color: var(--accent); }
+        .director-card h3 { font-size: 1.3rem; color: var(--primary); }
+        .director-card .role { color: var(--accent); font-weight: 600; margin: 0.3rem 0; }
+        .director-card .dept { color: var(--text-light); font-size: 0.95rem; }
+        .director-card .info { margin-top: 1rem; text-align: left; font-size: 0.9rem; line-height: 1.8; }
+        .director-card .info strong { color: var(--primary); }
+
+        /* ── RESEARCH ── */
+        .research-list { display: grid; gap: 1.2rem; }
+        .research-item {
+            background: var(--white); border-radius: var(--radius); padding: 1.5rem 2rem;
+            border-left: 4px solid var(--primary-light); box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .research-item:hover { border-left-color: var(--accent); }
+        .research-item h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: 0.4rem; }
+        .research-item p { color: var(--text-light); font-size: 0.95rem; line-height: 1.6; }
+
+        /* ── PUBLICATIONS ── */
+        .pub-table { width:100%; border-collapse: collapse; font-size: 0.9rem; }
+        .pub-table th {
+            background: var(--primary); color: white; padding: 12px 16px;
+            text-align: left; font-weight: 600;
+        }
+        .pub-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+        .pub-table tr:hover td { background: #f0f4f8; }
+        .pub-table .year { color: var(--accent); font-weight: 700; white-space: nowrap; }
+        .pub-category { margin: 2.5rem 0 1rem; color: var(--primary); font-size: 1.15rem; font-weight: 700; }
+
+        /* ── MEMBERS ── */
+        .member-group { margin-bottom: 2.5rem; }
+        .member-group h4 { color: var(--primary); font-size: 1.2rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent); display: inline-block; }
+        .member-card {
+            background: var(--white); border-radius: var(--radius); padding: 1.5rem;
+            box-shadow: var(--shadow); margin-bottom: 0.8rem; border: 1px solid var(--border);
+        }
+        .member-card .name { font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+        .member-card .detail { color: var(--text-light); font-size: 0.9rem; margin-top: 0.3rem; line-height: 1.6; }
+        .member-card .status { display: inline-block; font-size: 0.8rem; padding: 2px 10px; border-radius: 12px; margin-left: 8px; }
+        .status-current { background: #e8f5e9; color: #2e7d32; }
+        .status-alumni { background: #e3f2fd; color: #1565c0; }
+
+        /* ── CONTACT ── */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+        .contact-item { display: flex; gap: 0.8rem; align-items: flex-start; }
+        .contact-item .icon { font-size: 1.4rem; color: var(--accent); min-width: 28px; }
+        .contact-item div strong { display: block; color: var(--primary); font-size: 0.9rem; }
+        .contact-item div { color: var(--text-light); font-size: 0.95rem; }
+        .map-container { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+        .map-container img { width: 100%; height: auto; display: block; }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary); color: rgba(255,255,255,0.7);
+            text-align: center; padding: 2rem; font-size: 0.9rem;
+        }
+        footer strong { color: var(--accent); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 0 1rem; }
+            nav .links { display: none; position: absolute; top: 64px; left: 0; right: 0;
+                background: var(--primary); flex-direction: column; padding: 1rem;
+                gap: 0.8rem;
+            }
+            nav .links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .hero { height: 400px; }
+            .hero-content h1 { font-size: 1.8rem; }
+            .director-cards { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+            .pub-table { font-size: 0.8rem; display: block; overflow-x: auto; }
+            section { padding: 3rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+    <div class="logo">
+        <span>◆</span> KUMC 영상의학연구소
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav .links').classList.toggle('active')">☰</button>
+    <ul class="links">
+        <li><a href="#about">연구소 소개</a></li>
+        <li><a href="#director">소장</a></li>
+        <li><a href="#research">연구분야</a></li>
+        <li><a href="#publications">연구실적</a></li>
+        <li><a href="#members">구성원</a></li>
+        <li><a href="#contact">오시는 길</a></li>
+    </ul>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>
+            고려대학교 의과대학 융합의학교실
+            <span class="eng">Dept. of Convergence Medicine, Korea University College of Medicine</span>
+        </h1>
+        <p>비침습 생체영상 · 분자영상 · AI 진단 · 3D 정량계측<br>
+        <span class="highlight">Medical Imaging &amp; Convergence Medicine Research Laboratory</span></p>
+        <div class="hero-badge">Since 2000 — 고려대학교 부설 영상의학연구소</div>
+    </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+    <div class="container">
+        <div class="section-title">
+            <h2>연구소 소개</h2>
+            <span class="sub">About the Laboratory</span>
+        </div>
+        <div class="card" style="max-width: 900px; margin: 0 auto; font-size: 1.05rem; line-height: 2;">
+            <p>
+                본 연구센터는 <strong>2000년에 설립</strong>되어 인체에 영향을 주지 않는 방법
+                (<em>non-invasive method in vivo</em>)을 기본으로 하는 영상 및 의공학 연구를 통하여
+                <strong>computerized automatic diagnostic system</strong>을 구축하고,
+                이를 바탕으로 인체 질환을 컴퓨터가 진단할 수 있는 미래 컴퓨터 의사의 시대를
+                개척하는 연구를 수행하고 있습니다.
+            </p>
+            <p style="margin-top:1rem;">
+                21세기 첨단과학의 총아로 자리매김할 <strong>공학과 의학의 융합연구 (Fusion &amp; Hybrid Science)</strong>로서,
+                비침습 생체영상, 분자영상기반 치료, AI 기반 진단 시스템, 고해상도 영상기기 개발 등
+                선진국에서도 아직 구체적 연구성과가 없는 미개척 분야를 선도하고 있습니다.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ DIRECTOR ═══════════ -->
+<section id="director" class="director-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>소장</h2>
+            <span class="sub">Director</span>
+        </div>
+        <div class="director-cards">
+            <!-- Current Director -->
+            <div class="director-card current">
+                <img src="Professor.jpg" alt="Professor Jaeyoung Kim" onerror="this.style.display='none'">
+                <h3>김재영</h3>
+                <p class="role">현 소장 (Current Director)</p>
+                <p class="dept">고려대학교 의과대학 융합의학교실 교수</p>
+                <div class="info">
+                    <p><strong>전공:</strong> 의용생체공학 (Biomedical Engineering)</p>
+                    <p><strong>학위:</strong> 고려대학교 공학사(전자공학), 공학석사·박사(의용생체공학)</p>
+                    <p><strong>연구분야:</strong> Medical Imaging Segmentation, Fluorescent Medical Imaging, Molecular Cell Imaging</p>
+                    <p><strong>소속:</strong> 고려대학교 의과대학 융합의학교실</p>
+                    <p style="margin-top:0.8rem;"><strong>연구실:</strong> 고려대학교 부속 구로병원 영상의학연구소</p>
+                </div>
+            </div>
+            <!-- Founding Director -->
+            <div class="director-card">
+                <img src="professor_EMB00001474105c.jpg" alt="Professor ChilHwan Oh" onerror="this.style.display='none'">
+                <h3>오칠환 (ChilHwan Oh)</h3>
+                <p class="role" style="color: var(--primary-light);">설립 소장 (Founding Director, 2000~)</p>
+                <p class="dept">고려대학교 의과대학 피부과학교실 교수</p>
+                <div class="info">
+                    <p><strong>학위:</strong> 고려대학교 의과대학 의학사·석사·박사</p>
+                    <p><strong>경력:</strong> 고려대학교 의과대학 교수 (1997~), BK21 의과학사업단 학술위원장, 비침습 생체영상 연구회장, 첨단영상진단기기 기반기술개발사업단장</p>
+                    <p><strong>E-mail:</strong> choh@korea.ac.kr</p>
+                    <p><strong>Tel:</strong> (02) 2626-1891 &nbsp;|&nbsp; <strong>Fax:</strong> (02) 2626-1900</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ RESEARCH ═══════════ -->
+<section id="research">
+    <div class="container">
+        <div class="section-title">
+            <h2>연구분야</h2>
+            <span class="sub">Research Areas</span>
+        </div>
+        <div class="research-list">
+            <div class="research-item">
+                <h4>① 인체표면의 삼차원적 정량계측 (3D Surface Quantification)</h4>
+                <p>Stereo image 기법 등을 이용한 피부 및 인체장기 표면의 3차원 정량 계측. 질환의 severity 및 치료 효과 정량화, Neural Network 기반 computerized automatic diagnostic approach 연구.</p>
+            </div>
+            <div class="research-item">
+                <h4>② 인체표면의 색채분석 (Color Analysis of Human Surface)</h4>
+                <p>인체 표면의 색채 분석 기술 및 의학적 응용 연구. 피부 질환의 정량적 색채 평가.</p>
+            </div>
+            <div class="research-item">
+                <h4>③ 미세구조 표면의 정량적 연구 (Quantitative Micro-Surface Analysis)</h4>
+                <p>SEM 등을 이용한 나노미터(nm) 단위의 인체 표면구조 정량화. 현대과학의 미개척 분야로서 새로운 의학 학문영역 확대.</p>
+            </div>
+            <div class="research-item">
+                <h4>④ MR Microscopy 연구</h4>
+                <p>Magnetic Resonance Spectroscope와 MR Microscope를 이용한 non-invasive in vivo 상태의 인체표면 미세구조 및 생리·생화학적 연구.</p>
+            </div>
+            <div class="research-item">
+                <h4>⑤ 분자영상기반 난치병 치료 신기술 (Molecular Imaging-Based Therapeutics)</h4>
+                <p>파킨슨병, 당뇨병, 심혈관질환, 화상, 백반증 등 난치병에 대한 분자영상기반 줄기세포치료법 개발. 폐암·피부암·천식·아토피 맞춤치료제 개발. 줄기세포 tracking 기술, 형질전환 동물 제작, ADME 평가시스템 구축.</p>
+            </div>
+            <div class="research-item">
+                <h4>⑥ 첨단 고해상도 생체영상 진단기기 개발 (Advanced High-Resolution Imaging Devices)</h4>
+                <p>고해상도 Digital X-ray, 고자장 MR, 4D 초음파, Phase Contrast X-ray, In vivo Confocal 현미경 등 신기술 기반 고해상도 생체영상기술 개발. 실시간 3D/4D 영상처리 및 복합영상 융합 분석 기술. MRS, MR 분자영상, Confocal 현미경 기술을 결합한 융합 생체영상기기 체계 구축.</p>
+            </div>
+            <div class="research-item">
+                <h4>⑦ 기타 응용 연구 (Other Applications)</h4>
+                <p>Torsometer, Raman 등 non-invasive 방법의 의학적 응용 연구. 기능성 화장품, 피부 도포제, 항노화 피부 치료제 개발 및 효과·효능 검증 연구.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ PUBLICATIONS ═══════════ -->
+<section id="publications" style="background: var(--white);">
+    <div class="container">
+        <div class="section-title">
+            <h2>연구실적</h2>
+            <span class="sub">Publications &amp; Patents (2024)</span>
+        </div>
+
+        <p class="pub-category">📄 2024 SCI(E) 논문 (27편) — 최근 연구실적</p>
+        <div style="overflow-x:auto;">
+        <table class="pub-table">
+            <thead>
+                <tr><th>저자</th><th style="min-width:340px">논문제목</th><th>게재 학술지</th><th>역할</th><th>월</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="year">김재영</td><td>Polyhexamethylene Guanidine Phosphate Induces Restrictive Ventilation Defect and Alters Lung Resistance and Compliance in Rats</td><td>TOXICS</td><td>참여</td><td>10</td></tr>
+                <tr><td class="year">김재영</td><td>Deciphering the Toxicity of Polyhexamethylene Guanidine Phosphate in Lung Carcinogenesis: Mutational Profiles and Molecular Mechanisms</td><td>CHEMOSPHERE</td><td>참여</td><td>4</td></tr>
+                <tr><td class="year">김재영</td><td>Longitudinal Long Term Follow Up Investigation on the Carcinogenic Impact of Polyhexamethylene Guanidine Phosphate in Rat Lungs</td><td>SCIENTIFIC REPORTS</td><td>참여</td><td>3</td></tr>
+                <tr><td class="year">김재영</td><td>Impact of the COVID-19 Pandemic on Obesity, Metabolic Parameters and Clinical Values in the South Korean Adult Population</td><td>J. CLINICAL MEDICINE</td><td>교신저자</td><td>5</td></tr>
+                <tr><td class="year">김재영</td><td>Subchronic Particulate Matter Exposure Underlying Polyhexamethylene Guanidine Phosphate-Induced Lung Injury: Quantitative and Qualitative Assessment with MRI</td><td>HELIYON</td><td>참여</td><td>7</td></tr>
+                <tr><td class="year">김재영</td><td>Comparison of Laser and Traditional Lancing Devices for Capillary Blood Sampling in Patients with Diabetes Mellitus</td><td>LASERS IN MEDICAL SCIENCE</td><td>참여</td><td>7</td></tr>
+                <tr><td class="year">김재영</td><td>Comparison Between a Laser-Lancing Device and Automatic Incision Lancet for Capillary Blood Sampling from the Heel of Newborns</td><td>J. PERINATOLOGY</td><td>참여</td><td>1</td></tr>
+                <tr><td class="year">백유상</td><td>Parameter-Based Transfer Learning for Severity Classification of Atopic Dermatitis Using Hyperspectral Imaging</td><td>SKIN RESEARCH AND TECHNOLOGY</td><td>참여</td><td>4</td></tr>
+                <tr><td class="year">백유상</td><td>Transformer Based on the Prediction of Psoriasis Severity Treatment Response</td><td>BIOMEDICAL SIGNAL PROCESSING AND CONTROL</td><td>교신저자</td><td>3</td></tr>
+                <tr><td class="year">백유상</td><td>Human Papillomavirus Detection Rates in Bowen Disease: Correlation with Pelvic and Digital Region Involvement</td><td>CLINICAL AND EXPERIMENTAL DERMATOLOGY</td><td>교신저자</td><td>8</td></tr>
+                <tr><td class="year">손상욱</td><td>Bridging the Gap: Comparing Patient-Clinician Views on Treatment Goals in Atopic Dermatitis</td><td>DERMATOLOGY AND THERAPY</td><td>참여</td><td>8</td></tr>
+                <tr><td class="year">손상욱</td><td>Long-Term Efficacy and Safety of Risankizumab: A Retrospective, Multicenter, Real-World Study</td><td>ACTA DERMATO-VENEREOLOGICA</td><td>참여</td><td>6</td></tr>
+                <tr><td class="year">손상욱</td><td>Quality of Life and Burden of Moderate-to-Severe Atopic Dermatitis in Adult Patients Within the Asia-Pacific Region</td><td>DERMATOLOGY AND THERAPY</td><td>참여</td><td>9</td></tr>
+                <tr><td class="year">손상욱</td><td>Drug Survival Analysis of Dupilumab and Associated Predictors in Patients with Atopic Dermatitis in South Korea</td><td>SCIENTIFIC REPORTS</td><td>교신저자</td><td>7</td></tr>
+                <tr><td class="year">손상욱</td><td>Management of Moderate-to-Severe Atopic Dermatitis in Adults: A Cross-Sectional Survey of Dermatologists in Asia-Pacific</td><td>DERMATOLOGY AND THERAPY</td><td>참여</td><td>9</td></tr>
+                <tr><td class="year">손상욱</td><td>Phase 1/2 Trials of Human Bone Marrow-Derived Clonal Mesenchymal Stem Cells for Treatment of Moderate to Severe Atopic Dermatitis</td><td>J. ALLERGY AND CLINICAL IMMUNOLOGY</td><td>참여</td><td>10</td></tr>
+                <tr><td class="year">손상욱</td><td>Risk of Developing Hypertension in Atopic Dermatitis Patients Receiving Long-Term Low-Dose Cyclosporine: A Nationwide Study</td><td>ANNALS OF DERMATOLOGY</td><td>참여</td><td>4</td></tr>
+                <tr><td class="year">오영택</td><td>Proinsulin C-Peptide Inhibits High Glucose-Induced Migration and Invasion of Ovarian Cancer Cells</td><td>BIOMEDICINE &amp; PHARMACOTHERAPY</td><td>참여</td><td>3</td></tr>
+                <tr><td class="year">오영택</td><td>Glyoxalase 1: Emerging Biomarker and Therapeutic Target in Cervical Cancer Progression</td><td>PLOS ONE</td><td>교신저자</td><td>6</td></tr>
+                <tr><td class="year">오영택</td><td>Development and Validation of AI-Based Analysis Software to Support Screening System of Cervical Intraepithelial Neoplasia</td><td>SCIENTIFIC REPORTS</td><td>제1저자</td><td>1</td></tr>
+                <tr><td class="year">오영택</td><td>Position Statement about Gender-Neutral HPV Vaccination in Korea</td><td>VACCINES</td><td>제1저자</td><td>10</td></tr>
+                <tr><td class="year">오영택</td><td>Enhancing Cervical Cancer Screening: Review of p16/Ki-67 Dual Staining as a Promising Triage Strategy</td><td>DIAGNOSTICS</td><td>제1저자</td><td>2</td></tr>
+                <tr><td class="year">오영택</td><td>Assessing the New 2020 ESGO/ESTRO/ESP Endometrial Cancer Risk Molecular Categorization System for Predicting Survival</td><td>CANCERS</td><td>제1저자</td><td>3</td></tr>
+                <tr><td class="year">전지현</td><td>Clinical Practice Guidelines for the Diagnosis and Treatment of Scabies in Korea: Part 1. Epidemiology and Clinical Manifestations</td><td>EWHA MEDICAL JOURNAL</td><td>참여</td><td>10</td></tr>
+                <tr><td class="year">전지현</td><td>Clinical Practice Guidelines for the Diagnosis and Treatment of Scabies in Korea: Part 2. Treatment and Prevention</td><td>EWHA MEDICAL JOURNAL</td><td>참여</td><td>10</td></tr>
+                <tr><td class="year">전지현</td><td>Human Papillomavirus Detection Rates in Bowen Disease: Correlation with Pelvic and Digital Region Involvement</td><td>CLINICAL AND EXPERIMENTAL DERMATOLOGY</td><td>참여</td><td>7</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 0.5rem;">
+            ※ 2024년 기준, 피부영상의학연구소 소속 연구자 포함 실적. 저널: TOXICS, CHEMOSPHERE, Scientific Reports, J. Clinical Medicine, Heliyon, Lasers in Medical Science, J. Perinatology, Skin Research &amp; Technology, Biomedical Signal Processing &amp; Control, Clinical &amp; Experimental Dermatology, Dermatology &amp; Therapy, Acta Dermato-Venereologica, J. Allergy &amp; Clinical Immunology, Annals of Dermatology, Biomedicine &amp; Pharmacotherapy, PLOS ONE, Vaccines, Diagnostics, Cancers, Ewha Medical Journal.
+        </p>
+
+        <details style="margin-top: 2rem;">
+            <summary style="cursor:pointer; color: var(--primary); font-weight: 700; font-size: 1rem; padding: 0.5rem 0;">📂 2006~2007년 과거 실적 (펼쳐보기)</summary>
+            <p class="pub-category">📄 SCI 논문</p>
+            <div style="overflow-x:auto;">
+            <table class="pub-table">
+                <thead><tr><th>논문제목</th><th>게재학술지</th></tr></thead>
+                <tbody>
+                    <tr><td>Biological Imaging of HEK293 Cells Expressing PLCγ1 Using Surface-Enhanced Raman Microscopy</td><td>Anal. Chem. 2007, 79, 916-922</td></tr>
+                    <tr><td>In vivo Real-Time Vessel Imaging of Atherosclerotic Plaque in ApoE-Knockout Mice Using Synchrotron Radiation Microscopy</td><td>J. Am. Coll. Cardiol. 47 (4): 330A-331A</td></tr>
+                    <tr><td>Fast and Sensitive Analysis of DNA Hybridization in PDMS Micro-Fluidic Channel Using FRET</td><td>Chem. Commun. (14): 1509-1511</td></tr>
+                    <tr><td>Phase Contrast Radiography of Lewy Bodies in Parkinson Disease</td><td>NeuroImage 32 (2): 566-569</td></tr>
+                </tbody>
+            </table>
+            </div>
+            <p class="pub-category">🛡️ 특허</p>
+            <div style="overflow-x:auto;">
+            <table class="pub-table">
+                <thead><tr><th>특허명</th><th>국가</th><th>번호</th></tr></thead>
+                <tbody>
+                    <tr><td>표면 색채 분석 시스템 및 그 방법</td><td>대한민국</td><td>2006-26010</td></tr>
+                    <tr><td>평면형 RF 코일과 경사자장 코일을 포함하는 고해상도용 MR 시스템</td><td>대한민국</td><td>제10-074534호</td></tr>
+                    <tr><td>입체 영상을 이용한 향상된 피부 계측 시스템</td><td>대한민국</td><td>2007-0073369</td></tr>
+                    <tr><td>영상분석을 이용한 악성흑색종 진단 시스템</td><td>대한민국</td><td>2007-0073754</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- ═══════════ MEMBERS ═══════════ -->
+<section id="members">
+    <div class="container">
+        <div class="section-title">
+            <h2>구성원</h2>
+            <span class="sub">Members &amp; Alumni</span>
+        </div>
+
+        <div class="member-group">
+            <h4>🎓 재학생 (Current Students)</h4>
+            <div class="member-card">
+                <span class="name">이건우</span><span class="status status-current">박사수료</span>
+                <div class="detail">
+                    고려대학교 일반대학원 의학과 의용생체공학전공 (BK21 의과학사업단)<br>
+                    2005 고려대 공학사(전자공학) / 2007 고려대 공학석사(의용생체공학)<br>
+                    관심분야: Color analysis, CAD system for skin cancer<br>
+                    E-mail: pglgw@korea.ac.kr
+                </div>
+            </div>
+            <div class="member-card">
+                <span class="name">김재영</span><span class="status status-current">박사과정 → 현 소장</span>
+                <div class="detail">
+                    고려대학교 일반대학원 의학과 의용생체공학전공<br>
+                    2007 고려대 공학사(전자공학) / 2009 고려대 공학석사(의용생체공학)<br>
+                    관심분야: Medical imaging segmentation, Fluorescent imaging, Molecular cell imaging<br>
+                    <strong>→ 현재 고려대학교 의과대학 융합의학교실 교수·소장</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="member-group">
+            <h4>🎖️ 졸업생 (Alumni)</h4>
+            <div class="member-card">
+                <span class="name">하승한</span><span class="status status-alumni">공학박사 (2003.9~2009.8)</span>
+                <div class="detail">2009 고려대 공학박사(의용생체공학) → (현) University of Pittsburgh Research Professor</div>
+            </div>
+            <div class="member-card">
+                <span class="name">박규만</span><span class="status status-alumni">이학박사 (2005.3~2009.8)</span>
+                <div class="detail">2009 고려대 이학박사(의용생체공학) → (현) 고려대학교 연구교수</div>
+            </div>
+            <div class="member-card">
+                <span class="name">이언석</span><span class="status status-alumni">공학박사 (2005.3~2011.12)</span>
+                <div class="detail">2010 고려대 공학박사(의용생체공학) → (현) 김천대학교 교수</div>
+            </div>
+            <div class="member-card">
+                <span class="name">박상용</span><span class="status status-alumni">이학박사 (2000.3~2007.11)</span>
+                <div class="detail">2005 고려대 이학박사(의용생체공학) → (현) UCLA</div>
+            </div>
+            <div class="member-card">
+                <span class="name">이민희</span><span class="status status-alumni">이학박사 (2000.3~2003.8)</span>
+                <div class="detail">2003 고려대 이학박사(의용생체공학) → (현) 바이옵틱스</div>
+            </div>
+            <div class="member-card">
+                <span class="name">김호철</span><span class="status status-alumni">이학석사 (2002.3~2004.2)</span>
+                <div class="detail">2004 고려대 이학석사(의용생체공학) → (현) 을지대학교 교수</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact" style="background: var(--white);">
+    <div class="container">
+        <div class="section-title">
+            <h2>오시는 길</h2>
+            <span class="sub">Contact &amp; Location</span>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="icon">📍</span>
+                    <div>
+                        <strong>주소</strong>
+                        서울특별시 구로구 구로2동<br>
+                        고려대학교 부속 구로병원 영상의학연구소<br>
+                        (152-703)
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">📞</span>
+                    <div>
+                        <strong>연락처</strong>
+                        Lab: 02-2626-1894<br>
+                        Fax: 02-2626-1900<br>
+                        소장: choh@korea.ac.kr
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">🚇</span>
+                    <div>
+                        <strong>지하철</strong>
+                        1·2호선 신도림역 (1·2번 출구)<br>
+                        1호선 구로역 (1번 출구)<br>
+                        6호선 대림역 (4번 출구, 마을버스)<br>
+                        7호선 남구로역 (5번 출구 도보)
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">🚌</span>
+                    <div>
+                        <strong>버스</strong>
+                        신도림역: 503, 5714, 6512, 5615, 5626, 5619, 6411, 6511<br>
+                        남구로역: 6512, 6411, 6511, 5615, 5619
+                    </div>
+                </div>
+            </div>
+            <div class="map-container">
+                <img src="map.jpg" alt="오시는 길 약도" onerror="this.outerHTML='<div class=\'card\' style=\'text-align:center;padding:4rem;color:var(--text-light);\'>📍 약도 이미지를 준비 중입니다</div>'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+    <p>
+        <strong>고려대학교 의과대학 융합의학교실</strong> &nbsp;|&nbsp;
+        Department of Convergence Medicine, Korea University College of Medicine<br>
+        고려대학교 부속 구로병원 영상의학연구소 &nbsp;|&nbsp; Since 2000<br>
+        © Medical Imaging &amp; Convergence Medicine Lab. All Rights Reserved.
+    </p>
+</footer>
+
+</body>
+</html>
